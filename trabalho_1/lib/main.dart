@@ -15,6 +15,8 @@ class MyApp extends StatelessWidget {
 
 class HomePage extends StatelessWidget{
 
+  TextEditingController _controllerUser = TextEditingController();
+  TextEditingController _controllerPwd = TextEditingController();
   final String usuario = 'teste';
   final String Senha = 'teste123';
 
@@ -67,6 +69,7 @@ class HomePage extends StatelessWidget{
                   ),
                   SizedBox(height: 40),
                   TextField(
+                    controller: _controllerUser,
                     decoration: InputDecoration(
                       labelText: "Usuário",
                       border: OutlineInputBorder(),
@@ -76,6 +79,7 @@ class HomePage extends StatelessWidget{
                   ),
                   SizedBox(height: 20),
                   TextField(
+                    controller: _controllerPwd,
                     decoration: InputDecoration(
                       labelText: "Senha",
                       border: OutlineInputBorder(),
@@ -86,7 +90,23 @@ class HomePage extends StatelessWidget{
                   ),
                   SizedBox(height: 30,),
                   ElevatedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      String user = _controllerUser.text;
+                      String pwd = _controllerPwd.text;
+                      if(user == usuario && pwd == Senha){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => pagConfirm())
+                        );  
+                      }else{
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Usuário ou senha incorretos'),
+                            backgroundColor: Colors.lightBlue[500],
+                          ),
+                        );
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black87,
@@ -102,4 +122,26 @@ class HomePage extends StatelessWidget{
       ),
     );
   }
+}
+
+class pagConfirm extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Bem Vindo!',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Center(
+            child: Text("Bem vindo ao sistema alguma coisa",
+              style: TextStyle(
+                fontSize: 50, 
+              ),
+            )
+          ),
+          backgroundColor: Colors.blue[300],
+        )
+      ),
+    );
+  }
+  
 }
